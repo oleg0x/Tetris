@@ -26,4 +26,4 @@ main.o: tetris.h tetris.cpp main.cpp
 	$(CXX) $(CXXFLAGS) -c main.cpp
 
 $(TARGET): $(OBJ)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJ)
+	$(CXX) $(CXXFLAGS) -lncurses -o $(TARGET) $(OBJ)
