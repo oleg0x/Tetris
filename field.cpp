@@ -3,29 +3,25 @@
 
 
 
-Field::Field(WINDOW* win, uint_fast16_t height, uint_fast16_t width,
-			 uint_fast16_t beg_y, uint_fast16_t beg_x)
+Field::Field(WINDOW* win, uint16_t height, uint16_t width)
 	: win_ {win}
 	, height_ {height}
 	, width_ {width}
-	, beg_y_ {beg_y}
-	, beg_x_ {beg_x}
 	, field_(height_)
 {
 	for ( auto& v : field_ )
 		v.resize(width_, false);
 
 	field_[0][0] = field_[0][width_-1] = true;
-	field_[0][5] = field_[1][5] = field_[2][5] = field_[2][6] = true;
 	field_[height_-1][0] = field_[height_-1][width_-1] = true;
+//	field_[0][5] = field_[1][5] = field_[2][5] = field_[2][6] = true;
 }
 
 
 
 void Field::redraw() const
 {
-	mvwaddch(win_, 2, 8, '*');
-	mvwprintw(win_, 3, 4, "Field::redraw");	// (*win, y, x, *str, ...)
+//	mvwaddch(win_, 2, 8, '*');
 
 	const short int border_color = COLOR_WHITE;
 	const short int fallen_color = 245;		// Gray color
@@ -37,12 +33,13 @@ void Field::redraw() const
 	wrefresh(win_);
 
 	init_pair(2, fallen_color, fallen_color);		// (id, fg, bg)
-	attron(COLOR_PAIR(2));
-	for ( unsigned int i = 0; i < height_; ++i )
-		for ( unsigned int j = 0; j < width_; ++j )
+	wattron(win_, COLOR_PAIR(2));
+	for ( uint16_t i = 0; i < height_; ++i )
+		for ( uint16_t j = 0; j < width_; ++j )
 			if ( field_[i][j] )
-				mvprintw(beg_y_ + i, beg_x_ + 2*j, "  ");
-	attroff(COLOR_PAIR(2));
+				mvwprintw(win_, i + 1, 2*j + 1, "  ");
+	wrefresh(win_);
+	wattroff(win_, COLOR_PAIR(2));
 }
 
 

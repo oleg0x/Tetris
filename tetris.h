@@ -1,5 +1,4 @@
 #include "field.h"
-#include <ncurses.h>
 
 
 
@@ -13,8 +12,8 @@ public:
 	void run();
 
 private:
-	uint_fast16_t height_ = 30;
-	uint_fast16_t width_ = 16;
+	uint16_t height_ = 30;
+	uint16_t width_ = 16;
 	WINDOW* win_;
 	Field field_;
 };

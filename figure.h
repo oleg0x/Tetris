@@ -1,21 +1,40 @@
 #pragma once
 
-#include <array>
+#include "bits4x4.h"
+#include <ncurses.h>
+
+//enum struct HorizMove {left = -1, right = +1};
 
 
 
 class Figure
 {
 public:
-	/*virtual*/ void rotate();
+	Figure(WINDOW* win, uint8_t figure_type);
+
+	void show() ;
+	void hide() const;
+
+	void moveLeft();
+	void moveRight();
+	void moveDown();
+	void moveUp();
+	void drop();
+
+	void rotateClockwise();
+	void rotateCounterclockwise();
 
 private:
-	array<array<char, 4>, 4> fig;
-	static Field& field;
+	void draw() const;
+
+	WINDOW* const win_;
+	Bits4x4 fig_;
+	short int color_;
+	uint16_t x_, y_;
 };
 
 
-
+/*
 class FigureSquare
 {
 public:
@@ -73,3 +92,4 @@ public:
 private:
 
 };
+*/
