@@ -2,8 +2,8 @@
 
 
 
-Figure::Figure(WINDOW* win, uint8_t figure_type)
-	: win_ {win}
+Figure::Figure(Field& field, uint8_t figure_type)
+	: field_ {field}
 	, x_ {6}
 	, y_ {1}
 {
@@ -39,14 +39,31 @@ Figure::Figure(WINDOW* win, uint8_t figure_type)
 
 
 
+bool Figure::isValidPlacement(int y, int x) const
+{
+	for ( int i = 0; i < 4; ++i )
+		for ( int j = 0; j < 4; ++j )
+		{
+			if ( fig_.get(i, j) &&
+				 y + i >= 0 && y + i < field_.height_ &&
+				 x + j >= 0 && x + j < field_.width_ &&
+				field_.field_[y+i][x+j] )  return false;
+			if ( (y + i < 0 || y + i >= field_.height_ ||
+				  x + j < 0 || x + j >= field_.width_ )
+				 && fig_.get(i, j) )  return false;
+		}
+	return true;
+}
+
+
+
 void Figure::draw() const
 {
-	for ( uint16_t i = 0; i < 4; ++i )
-		for ( uint16_t j = 0; j < 4; ++j )
+	for ( int i = 0; i < 4; ++i )
+		for ( int j = 0; j < 4; ++j )
 			if ( fig_.get(i, j) )
-				mvwaddstr(win_, y_ + i, 2*(x_ + j), "  ");
-//				mvprintw(i+5, j+40, "%d", fig_.get(i, j));
-	wrefresh(win_);
+				mvwaddstr(field_.win_, y_+i+1, 2*(x_+j)+1, "  ");
+	wrefresh(field_.win_);
 }
 
 
@@ -54,7 +71,7 @@ void Figure::draw() const
 void Figure::show()
 {
 	init_pair(3, color_, color_);
-	wattron(win_, COLOR_PAIR(3));
+	wattron(field_.win_, COLOR_PAIR(3));
 	draw();
 }
 
@@ -63,44 +80,21 @@ void Figure::show()
 void Figure::hide() const
 {
 	init_pair(4, COLOR_BLACK, COLOR_BLACK);
-	wattron(win_, COLOR_PAIR(4));
+	wattron(field_.win_, COLOR_PAIR(4));
 	draw();
 }
 
 
 
-void Figure::moveLeft()
+void Figure::move(int dy, int dx)
 {
-	hide();
-	--x_;
-	show();
-}
-
-
-
-void Figure::moveRight()
-{
-	hide();
-	++x_;
-	show();
-}
-
-
-
-void Figure::moveDown()
-{
-	hide();
-	++y_;
-	show();
-}
-
-
-
-void Figure::moveUp()
-{
-	hide();
-	--y_;
-	show();
+	if ( isValidPlacement(y_ + dy, x_ + dx) )
+	{
+		hide();
+		y_ += dy;
+		x_ += dx;
+		show();
+	}
 }
 
 
@@ -117,7 +111,6 @@ void Figure::rotateClockwise()
 			b = fig_.get(j, n - i);
 			c = fig_.get(n - i, n - j);
 			d = fig_.get(n - j, i);
-
 			fig_.set(i, j, d);
 			fig_.set(j, n - i, a);
 			fig_.set(n - i, n - j, b);

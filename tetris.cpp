@@ -27,7 +27,7 @@ Tetris::Tetris()
 	mvaddstr(0, 10, "TETRIS");		// From top left corner which is (0,0)
 	uint16_t beg_y = 2;
 	uint16_t beg_x = 4;
-	win_ = newwin(height_ + 2, 2*width_ + 2, beg_y, beg_x);	// (nlines, ncols, begin_y, begin_x)
+	win_ = newwin(height_ + 2, 2*width_ + 2, beg_y, beg_x);
 	refresh();
 	field_ = Field(win_, height_, width_);
 }
@@ -46,7 +46,7 @@ Tetris::~Tetris()
 void Tetris::run()
 {
 	field_.redraw();
-	Figure fig(win_, 6);
+	Figure fig(field_, 6);
 	fig.show();
 
 	while ( true )
@@ -55,16 +55,16 @@ void Tetris::run()
 		switch ( ch )
 		{
 			case KEY_LEFT:
-				fig.moveLeft();
+				fig.move(0, -1);
 				break;
 			case KEY_RIGHT:
-				fig.moveRight();
+				fig.move(0, +1);
 				break;
 			case KEY_UP:
-				fig.moveUp();
+				fig.move(-1, 0);
 				break;
 			case KEY_DOWN:
-				fig.moveDown();
+				fig.move(+1, 0);
 				break;
 			case 'k':
 				fig.rotateCounterclockwise();

@@ -3,7 +3,7 @@
 
 
 
-Field::Field(WINDOW* win, uint16_t height, uint16_t width)
+Field::Field(WINDOW* win, int height, int width)
 	: win_ {win}
 	, height_ {height}
 	, width_ {width}
@@ -14,17 +14,15 @@ Field::Field(WINDOW* win, uint16_t height, uint16_t width)
 
 	field_[0][0] = field_[0][width_-1] = true;
 	field_[height_-1][0] = field_[height_-1][width_-1] = true;
-//	field_[0][5] = field_[1][5] = field_[2][5] = field_[2][6] = true;
+	field_[27][5] = field_[28][5] = field_[29][5] = field_[29][6] = true;
 }
 
 
 
 void Field::redraw() const
 {
-//	mvwaddch(win_, 2, 8, '*');
-
 	const short int border_color = COLOR_WHITE;
-	const short int fallen_color = 245;		// Gray color
+	const short int fallen_color = 245;				// Gray color
 
 	init_pair(1, border_color, border_color);		// (id, fg, bg)
 	wattron(win_, COLOR_PAIR(1));

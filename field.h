@@ -4,6 +4,8 @@
 #include <ncurses.h>
 #include <vector>
 
+class Figure;
+
 using std::vector;
 
 
@@ -18,7 +20,8 @@ public:
 
 private:
 	WINDOW* win_;
-	uint16_t height_;
-	uint16_t width_;
+	int height_;
+	int width_;
 	vector<vector<bool>> field_;
+	friend Figure;
 };

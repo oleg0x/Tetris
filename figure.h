@@ -1,6 +1,7 @@
 #pragma once
 
 #include "bits4x4.h"
+#include "field.h"
 #include <ncurses.h>
 
 //enum struct HorizMove {left = -1, right = +1};
@@ -10,27 +11,25 @@
 class Figure
 {
 public:
-	Figure(WINDOW* win, uint8_t figure_type);
+	Figure(Field& field, uint8_t figure_type);
 
 	void show() ;
 	void hide() const;
 
-	void moveLeft();
-	void moveRight();
-	void moveDown();
-	void moveUp();
+	void move(int dy, int dx);		// dy, dx should only be -1, +1
 	void drop();
 
 	void rotateClockwise();
 	void rotateCounterclockwise();
 
 private:
+	bool isValidPlacement(int y, int x) const;
 	void draw() const;
 
-	WINDOW* const win_;
+	Field& field_;
 	Bits4x4 fig_;
+	int x_, y_;
 	short int color_;
-	uint16_t x_, y_;
 };
 
 
