@@ -25,6 +25,8 @@ Tetris::Tetris()
 	}
 
 	mvaddstr(0, 10, "TETRIS");		// From top left corner which is (0,0)
+	mvprintw(4, 50, "Field: %2dx%2d", height_, width_);
+
 	uint16_t beg_y = 2;
 	uint16_t beg_x = 4;
 	win_ = newwin(height_ + 2, 2*width_ + 2, beg_y, beg_x);
@@ -46,10 +48,13 @@ Tetris::~Tetris()
 void Tetris::run()
 {
 	field_.redraw();
+
+	while ( true )
+	{
 	Figure fig(field_, 6);
 	fig.show();
 
-	while ( true )
+	while ( fig.isMoveable() )
 	{
 		int ch = getch();
 		switch ( ch )
@@ -66,10 +71,13 @@ void Tetris::run()
 			case KEY_DOWN:
 				fig.move(+1, 0);
 				break;
-			case 'k':
+			case KEY_IC:				// Keypad Ins
+				fig.drop();
+				break;
+			case '/':
 				fig.rotateCounterclockwise();
 				break;
-			case 'l':
+			case '*':
 				fig.rotateClockwise();
 				break;
 			case 'q':
@@ -77,5 +85,6 @@ void Tetris::run()
 			default:
 				return;
 		}
+	}
 	}
 }

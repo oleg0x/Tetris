@@ -5,7 +5,7 @@
 Figure::Figure(Field& field, uint8_t figure_type)
 	: field_ {field}
 	, x_ {6}
-	, y_ {1}
+	, y_ {0}
 {
 	switch ( figure_type )
 	{
@@ -35,6 +35,13 @@ Figure::Figure(Field& field, uint8_t figure_type)
 			break;
 	}
 	color_ = COLOR_GREEN;
+}
+
+
+
+bool Figure::isMoveable() const
+{
+	return moveable_;
 }
 
 
@@ -70,7 +77,7 @@ void Figure::draw() const
 
 void Figure::show()
 {
-	init_pair(3, color_, color_);
+	init_pair(3, COLOR_BLACK, color_);
 	wattron(field_.win_, COLOR_PAIR(3));
 	draw();
 }
@@ -94,9 +101,27 @@ void Figure::move(int dy, int dx)
 		y_ += dy;
 		x_ += dx;
 		show();
+		mvprintw(5, 50, "%2dx%2d", y_, x_);
+	}
+	else if ( dy > 0 && dx == 0 )		// It is invalid move down
+	{
+		for ( int i = 0; i < 4; ++i )
+			for ( int j = 0; j < 4; ++j )
+				if ( y_ + i < field_.height_ && x_ + j < field_.width_ )
+					field_.field_[y_+i][x_+j] =
+						field_.field_[y_+i][x_+j] | fig_.get(i, j);
+		moveable_ = false;
+		field_.redraw();
 	}
 }
 
+
+
+void Figure::drop()
+{
+	while ( isMoveable() )
+		move(+1, 0);
+}
 
 
 void Figure::rotateClockwise()

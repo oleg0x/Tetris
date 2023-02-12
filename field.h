@@ -14,7 +14,7 @@ class Field
 {
 public:
 	Field() = default;
-	Field(WINDOW* win, uint16_t height, uint16_t width);
+	Field(WINDOW* win, int height, int width);
 	void redraw() const;
 	bool checkFullRow() const;
 

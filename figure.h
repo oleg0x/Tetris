@@ -13,6 +13,8 @@ class Figure
 public:
 	Figure(Field& field, uint8_t figure_type);
 
+	bool isMoveable() const;
+
 	void show() ;
 	void hide() const;
 
@@ -30,6 +32,7 @@ private:
 	Bits4x4 fig_;
 	int x_, y_;
 	short int color_;
+	bool moveable_ = true;
 };
 
 
