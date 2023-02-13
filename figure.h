@@ -3,8 +3,7 @@
 #include "bits4x4.h"
 #include "field.h"
 #include <ncurses.h>
-
-//enum struct HorizMove {left = -1, right = +1};
+#include <utility>
 
 
 
@@ -12,6 +11,9 @@ class Figure
 {
 public:
 	Figure(Field& field, uint8_t figure_type);
+
+	std::pair<int, int> getYX() const;
+	bool getBits(int i, int j) const;
 
 	bool isMoveable() const;
 
@@ -34,64 +36,3 @@ private:
 	short int color_;
 	bool moveable_ = true;
 };
-
-
-/*
-class FigureSquare
-{
-public:
-
-private:
-
-};
-
-
-
-class FigureStraight
-{
-public:
-
-private:
-
-};
-
-
-
-class FigureL
-{
-public:
-
-private:
-
-};
-
-
-
-class FigureLMirrored
-{
-public:
-
-private:
-
-};
-
-
-
-class FigureZ
-{
-public:
-
-private:
-
-};
-
-
-
-class FigureZMirrored
-{
-public:
-
-private:
-
-};
-*/

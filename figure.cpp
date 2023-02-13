@@ -1,4 +1,7 @@
 #include "figure.h"
+#include <iostream>
+
+using namespace std;
 
 
 
@@ -31,10 +34,25 @@ Figure::Figure(Field& field, uint8_t figure_type)
 			fig_.set(0b0000010011100000);		// T-like
 			break;
 		default:
-
-			break;
+			endwin();
+			cerr << "In Figure::Figure: wrong figure number!\n";
+			exit(1);
 	}
 	color_ = COLOR_GREEN;
+}
+
+
+
+pair<int, int> Figure::getYX() const
+{
+	return {y_, x_};
+}
+
+
+
+bool Figure::getBits(int i, int j) const
+{
+	return fig_.get(i, j);
 }
 
 
@@ -105,13 +123,8 @@ void Figure::move(int dy, int dx)
 	}
 	else if ( dy > 0 && dx == 0 )		// It is invalid move down
 	{
-		for ( int i = 0; i < 4; ++i )
-			for ( int j = 0; j < 4; ++j )
-				if ( y_ + i < field_.height_ && x_ + j < field_.width_ )
-					field_.field_[y_+i][x_+j] =
-						field_.field_[y_+i][x_+j] | fig_.get(i, j);
+		field_.makeFigureStatic(*this);
 		moveable_ = false;
-		field_.redraw();
 	}
 }
 
@@ -120,8 +133,9 @@ void Figure::move(int dy, int dx)
 void Figure::drop()
 {
 	while ( isMoveable() )
-		move(+1, 0);
+		move(1, 0);
 }
+
 
 
 void Figure::rotateClockwise()

@@ -4,9 +4,9 @@
 #include <ncurses.h>
 #include <vector>
 
-class Figure;
-
 using std::vector;
+
+class Figure;
 
 
 
@@ -16,7 +16,8 @@ public:
 	Field() = default;
 	Field(WINDOW* win, int height, int width);
 	void redraw() const;
-	bool checkFullRow() const;
+	void eraseFullRows();
+	void makeFigureStatic(Figure& fig);
 
 private:
 	WINDOW* win_;
