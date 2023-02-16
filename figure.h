@@ -17,17 +17,15 @@ public:
 
 	bool isMoveable() const;
 
-	void show() ;
+	void show() const;
 	void hide() const;
 
 	void move(int dy, int dx);		// dy, dx should only be -1, +1
 	void drop();
 
-	void rotateClockwise();
-	void rotateCounterclockwise();
+	void rotate(RotationDirection rd);
 
-private:
-	bool isValidPlacement(int y, int x) const;
+//private:
 	void draw() const;
 
 	Field& field_;

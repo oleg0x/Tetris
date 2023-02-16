@@ -2,6 +2,10 @@
 
 #include <cstdint>
 
+enum struct RotationDirection { clockwise, counterclockwise };
+
+RotationDirection& operator !(RotationDirection& rd);
+
 
 
 class Bits4x4
@@ -17,6 +21,9 @@ public:
 	bool get(uint8_t row, uint8_t col) const;
 	void set(uint8_t row, uint8_t col, bool value);
 	void set(uint16_t value) { data_ = value; }
+
+	void rotate(RotationDirection rd);
+//	Bits4x4 rotate(RotationDirection rd) const;
 
 private:
 	uint16_t data_ = 0;		// Little-endian supposed

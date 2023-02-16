@@ -67,3 +67,21 @@ void Field::makeFigureStatic(Figure& fig)
 	eraseFullRows();
 	redraw();
 }
+
+
+
+bool Field::isValidPlacement(const Figure& fig, int dy, int dx) const
+{
+	for ( int i = 0; i < 4; ++i )
+		for ( int j = 0; j < 4; ++j )
+		{
+			if ( fig.fig_.get(i, j) &&
+				 fig.y_ + dy + i >= 0 && fig.y_ + dy + i < height_ &&
+				 fig.x_ + dx + j >= 0 && fig.x_ + dx + j < width_ &&
+				field_[fig.y_+dy+i][fig.x_+dx+j] )  return false;
+			if ( (fig.y_ + dy + i < 0 || fig.y_ + dy + i >= height_ ||
+				  fig.x_ + dx + j < 0 || fig.x_ + dx + j >= width_ )
+				 && fig.fig_.get(i, j) )  return false;
+		}
+	return true;
+}

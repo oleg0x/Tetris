@@ -64,24 +64,6 @@ bool Figure::isMoveable() const
 
 
 
-bool Figure::isValidPlacement(int y, int x) const
-{
-	for ( int i = 0; i < 4; ++i )
-		for ( int j = 0; j < 4; ++j )
-		{
-			if ( fig_.get(i, j) &&
-				 y + i >= 0 && y + i < field_.height_ &&
-				 x + j >= 0 && x + j < field_.width_ &&
-				field_.field_[y+i][x+j] )  return false;
-			if ( (y + i < 0 || y + i >= field_.height_ ||
-				  x + j < 0 || x + j >= field_.width_ )
-				 && fig_.get(i, j) )  return false;
-		}
-	return true;
-}
-
-
-
 void Figure::draw() const
 {
 	for ( int i = 0; i < 4; ++i )
@@ -93,7 +75,7 @@ void Figure::draw() const
 
 
 
-void Figure::show()
+void Figure::show() const
 {
 	init_pair(3, COLOR_BLACK, color_);
 	wattron(field_.win_, COLOR_PAIR(3));
@@ -113,7 +95,7 @@ void Figure::hide() const
 
 void Figure::move(int dy, int dx)
 {
-	if ( isValidPlacement(y_ + dy, x_ + dx) )
+	if ( field_.isValidPlacement(*this, dy, dx) )
 	{
 		hide();
 		y_ += dy;
@@ -138,44 +120,16 @@ void Figure::drop()
 
 
 
-void Figure::rotateClockwise()
+void Figure::rotate(RotationDirection rd)
 {
-	hide();
-    const uint16_t n = 3;
-    bool a, b, c, d;
-	for ( uint16_t i = 0; i < 2; ++i )
-		for ( uint16_t j = i; j < 3 - i; ++j )
-		{
-			a = fig_.get(i, j);
-			b = fig_.get(j, n - i);
-			c = fig_.get(n - i, n - j);
-			d = fig_.get(n - j, i);
-			fig_.set(i, j, d);
-			fig_.set(j, n - i, a);
-			fig_.set(n - i, n - j, b);
-			fig_.set(n - j, i, c);
-		}
-	show();
-}
-
-
-
-void Figure::rotateCounterclockwise()
-{
-	hide();
-    const uint16_t n = 3;
-    bool a, b, c, d;
-	for ( uint16_t i = 0; i < 2; ++i )
-		for ( uint16_t j = i; j < 3 - i; ++j )
-		{
-			a = fig_.get(i, j);
-			b = fig_.get(j, n - i);
-			c = fig_.get(n - i, n - j);
-			d = fig_.get(n - j, i);
-			fig_.set(i, j, b);
-			fig_.set(j, n - i, c);
-			fig_.set(n - i, n - j, d);
-			fig_.set(n - j, i, a);
-		}
-	show();
+	fig_.rotate(rd);
+	if ( field_.isValidPlacement(*this, 0, 0) )
+	{
+		fig_.rotate(!rd);
+		hide();
+		fig_.rotate(!rd);
+		show();
+	}
+	else	// Invalid placement
+		fig_.rotate(!rd);
 }

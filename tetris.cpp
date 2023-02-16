@@ -79,10 +79,10 @@ void Tetris::run()
 					fig.drop();
 					break;
 				case '/':
-					fig.rotateCounterclockwise();
+					fig.rotate(RotationDirection::counterclockwise);
 					break;
 				case '*':
-					fig.rotateClockwise();
+					fig.rotate(RotationDirection::clockwise);
 					break;
 				case 'q':
 					return;

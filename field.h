@@ -18,6 +18,7 @@ public:
 	void redraw() const;
 	void eraseFullRows();
 	void makeFigureStatic(Figure& fig);
+	bool isValidPlacement(const Figure& fig, int dy, int dx) const;
 
 private:
 	WINDOW* win_;
