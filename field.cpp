@@ -1,5 +1,5 @@
-#include "figure.h"
 #include "field.h"
+#include "figure.h"
 #include <algorithm>
 #include <iostream>
 
@@ -13,6 +13,13 @@ Field::Field(WINDOW* win, int height, int width)
 	, width_ {width}
 	, field_(height_, vector(width_, false))
 {}
+
+
+
+WINDOW* Field::getWindow() const
+{
+	return win_;
+}
 
 
 
@@ -63,7 +70,7 @@ void Field::makeFigureStatic(Figure& fig)
 	for ( int i = 0; i < 4; ++i )
 		for ( int j = 0; j < 4; ++j )
 			if ( y + i < height_ && x + j < width_ )
-				field_[y+i][x+j] = field_[y+i][x+j] | fig.getBits(i, j);
+				field_[y+i][x+j] = field_[y+i][x+j] | fig.getBit(i, j);
 	eraseFullRows();
 	redraw();
 }
@@ -72,16 +79,17 @@ void Field::makeFigureStatic(Figure& fig)
 
 bool Field::isValidPlacement(const Figure& fig, int dy, int dx) const
 {
+	auto [y, x] = fig.getYX();
 	for ( int i = 0; i < 4; ++i )
 		for ( int j = 0; j < 4; ++j )
 		{
-			if ( fig.fig_.get(i, j) &&
-				 fig.y_ + dy + i >= 0 && fig.y_ + dy + i < height_ &&
-				 fig.x_ + dx + j >= 0 && fig.x_ + dx + j < width_ &&
-				field_[fig.y_+dy+i][fig.x_+dx+j] )  return false;
-			if ( (fig.y_ + dy + i < 0 || fig.y_ + dy + i >= height_ ||
-				  fig.x_ + dx + j < 0 || fig.x_ + dx + j >= width_ )
-				 && fig.fig_.get(i, j) )  return false;
+			if ( fig.getBit(i, j) &&
+				 y + dy + i >= 0 && y + dy + i < height_ &&
+				 x + dx + j >= 0 && x + dx + j < width_ &&
+				field_[y+dy+i][x+dx+j] )  return false;
+			if ( (y + dy + i < 0 || y + dy + i >= height_ ||
+				  x + dx + j < 0 || x + dx + j >= width_ )
+				 && fig.getBit(i, j) )  return false;
 		}
 	return true;
 }

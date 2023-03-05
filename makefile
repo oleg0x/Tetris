@@ -15,13 +15,13 @@ re: clean all
 
 bits4x4.o: bits4x4.h bits4x4.cpp
 
-figure.o: bits4x4.h bits4x4.cpp figure.h figure.cpp
+figure.o: bits4x4.h figure.h field.h figure.cpp
 	$(CXX) $(CXXFLAGS) -c figure.cpp
 
-field.o: field.h field.cpp
+field.o: figure.h field.h field.cpp
 	$(CXX) $(CXXFLAGS) -c field.cpp
 
-tetris.o: figure.h figure.cpp field.h field.cpp tetris.h tetris.cpp
+tetris.o: figure.h field.h tetris.h tetris.cpp
 	$(CXX) $(CXXFLAGS) -c tetris.cpp
 
 main.o: tetris.h main.cpp

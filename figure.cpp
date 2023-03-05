@@ -1,4 +1,5 @@
 #include "figure.h"
+#include "field.h"
 #include <iostream>
 
 using namespace std;
@@ -7,8 +8,6 @@ using namespace std;
 
 Figure::Figure(Field& field, uint8_t figure_type)
 	: field_ {field}
-	, x_ {6}
-	, y_ {0}
 {
 	switch ( figure_type )
 	{
@@ -50,7 +49,7 @@ pair<int, int> Figure::getYX() const
 
 
 
-bool Figure::getBits(int i, int j) const
+bool Figure::getBit(int i, int j) const
 {
 	return fig_.get(i, j);
 }
@@ -69,8 +68,8 @@ void Figure::draw() const
 	for ( int i = 0; i < 4; ++i )
 		for ( int j = 0; j < 4; ++j )
 			if ( fig_.get(i, j) )
-				mvwaddstr(field_.win_, y_+i+1, 2*(x_+j)+1, "  ");
-	wrefresh(field_.win_);
+				mvwaddstr(field_.getWindow(), y_+i+1, 2*(x_+j)+1, "  ");
+	wrefresh(field_.getWindow());
 }
 
 
@@ -78,7 +77,7 @@ void Figure::draw() const
 void Figure::show() const
 {
 	init_pair(3, COLOR_BLACK, color_);
-	wattron(field_.win_, COLOR_PAIR(3));
+	wattron(field_.getWindow(), COLOR_PAIR(3));
 	draw();
 }
 
@@ -87,7 +86,7 @@ void Figure::show() const
 void Figure::hide() const
 {
 	init_pair(4, COLOR_BLACK, COLOR_BLACK);
-	wattron(field_.win_, COLOR_PAIR(4));
+	wattron(field_.getWindow(), COLOR_PAIR(4));
 	draw();
 }
 

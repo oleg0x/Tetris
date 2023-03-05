@@ -1,10 +1,10 @@
 #pragma once
 
 #include "bits4x4.h"
-#include "field.h"
 #include <ncurses.h>
 #include <utility>
 
+class Field;
 
 
 class Figure
@@ -13,7 +13,7 @@ public:
 	Figure(Field& field, uint8_t figure_type);
 
 	std::pair<int, int> getYX() const;
-	bool getBits(int i, int j) const;
+	bool getBit(int i, int j) const;
 
 	bool isMoveable() const;
 
@@ -25,12 +25,13 @@ public:
 
 	void rotate(RotationDirection rd);
 
-//private:
+private:
 	void draw() const;
 
 	Field& field_;
 	Bits4x4 fig_;
-	int x_, y_;
+	int x_ = 6;
+	int y_ = 0;
 	short int color_;
 	bool moveable_ = true;
 };

@@ -9,7 +9,9 @@ using namespace std;
 
 
 
-Tetris::Tetris()
+Tetris::Tetris(uint16_t height, uint16_t width)
+	: height_ {height}
+	, width_ {width}
 {
 	initscr();					// Initialize routines
 	cbreak();
@@ -28,9 +30,7 @@ Tetris::Tetris()
 	mvaddstr(0, 10, "TETRIS");		// From top left corner which is (0,0)
 	mvprintw(4, 50, "Field: %2dx%2d", height_, width_);
 
-	uint16_t beg_y = 2;
-	uint16_t beg_x = 4;
-	win_ = newwin(height_ + 2, 2*width_ + 2, beg_y, beg_x);
+	win_ = newwin(height_ + 2, 2*width_ + 2, 2, 4);
 	refresh();
 	field_ = Field(win_, height_, width_);
 }
