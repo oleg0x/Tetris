@@ -4,6 +4,7 @@
 #include <iostream>
 #include <ncurses.h>
 #include <random>
+#include <thread>
 
 using namespace std;
 
@@ -14,10 +15,11 @@ Tetris::Tetris(uint16_t height, uint16_t width)
 	, width_ {width}
 {
 	initscr();					// Initialize routines
-	cbreak();
-	curs_set(0);				// Hide cursor
+	cbreak();					// Disables line buffering
 	noecho();					// Disable printing by getch()
 	keypad(stdscr, true);		// Activate function keys
+	curs_set(0);				// Hide cursor
+	nodelay(stdscr, true);		// Non-blocking getch
 	start_color();				// Activate color manipulation
 
 	if ( !has_colors() )
@@ -58,6 +60,8 @@ void Tetris::run()
 	{
 		Figure fig(field_, distr(gen));
 		fig.show();
+		jthread fig_thr(&Figure::stepDown, &fig);
+
 		while ( fig.isMoveable() )
 		{
 			int ch = getch();
@@ -85,8 +89,6 @@ void Tetris::run()
 					fig.rotate(RotationDirection::clockwise);
 					break;
 				case 'q':
-					return;
-				default:
 					return;
 			} // switch ( ch )
 		} // while ( fig.isMoveable() )

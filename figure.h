@@ -22,6 +22,7 @@ public:
 
 	void move(int dy, int dx);		// dy, dx should only be -1, +1
 	void drop();
+	void stepDown();
 
 	void rotate(RotationDirection rd);
 
