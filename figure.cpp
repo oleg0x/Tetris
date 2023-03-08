@@ -1,6 +1,7 @@
 #include "figure.h"
 #include "field.h"
 #include <iostream>
+#include <thread>
 
 using namespace std;
 
@@ -113,8 +114,19 @@ void Figure::move(int dy, int dx)
 
 void Figure::drop()
 {
-	while ( isMoveable() )
+	while ( moveable_ )
 		move(1, 0);
+}
+
+
+
+void Figure::stepDown()
+{
+	while ( moveable_ )
+	{
+		this_thread::sleep_for(500ms);
+		move(+1, 0);
+	}
 }
 
 
