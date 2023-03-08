@@ -15,9 +15,10 @@ Tetris::Tetris(uint16_t height, uint16_t width)
 {
 	initscr();					// Initialize routines
 	cbreak();
-	curs_set(0);				// Hide cursor
 	noecho();					// Disable printing by getch()
 	keypad(stdscr, true);		// Activate function keys
+	nodelay(stdscr, true);		// Non-blocking getch
+	curs_set(0);				// Hide cursor
 	start_color();				// Activate color manipulation
 
 	if ( !has_colors() )
@@ -86,8 +87,8 @@ void Tetris::run()
 					break;
 				case 'q':
 					return;
-				default:
-					return;
+//				default:
+//					return;
 			} // switch ( ch )
 		} // while ( fig.isMoveable() )
 	} // while ( true )
