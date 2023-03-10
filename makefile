@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++20 -Wall -Wextra
+CXXFLAGS = -std=c++20 -Wall -Wextra -o0 -ggdb
 
 TARGET = tetris
 OBJ = bits4x4.o figure.o field.o tetris.o main.o
