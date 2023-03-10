@@ -65,7 +65,7 @@ void Tetris::run()
 		while ( fig.isMoveable() )
 		{
 			int ch = getch();
-			this_thread::sleep_for(5ms);
+			this_thread::sleep_for(10ms);
 			switch ( ch )
 			{
 				case KEY_LEFT:
@@ -91,11 +91,10 @@ void Tetris::run()
 					break;
 				case 'q':
 					return;
-//				default:
-//					return;
 			} // switch ( ch )
 		} // while ( fig.isMoveable() )
 
 		fig_thr.join();
+		field_.makeFigureStatic(fig);
 	} // while ( true )
 }

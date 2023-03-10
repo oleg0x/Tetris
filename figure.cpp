@@ -106,7 +106,7 @@ void Figure::move(int dy, int dx)
 	}
 	else if ( dy > 0 && dx == 0 )		// It is invalid move down
 	{
-		field_.makeFigureStatic(*this);
+//		field_.makeFigureStatic(*this);
 		moveable_ = false;
 	}
 }
