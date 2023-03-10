@@ -95,6 +95,7 @@ void Figure::hide() const
 
 void Figure::move(int dy, int dx)
 {
+	lock_guard<mutex> lg(fig_mutex_);
 	if ( field_.isValidPlacement(*this, dy, dx) )
 	{
 		hide();
@@ -125,7 +126,7 @@ void Figure::stepDown()
 	while ( moveable_ )
 	{
 		this_thread::sleep_for(500ms);
-		move(+1, 0);
+		move(1, 0);
 	}
 }
 
@@ -133,6 +134,7 @@ void Figure::stepDown()
 
 void Figure::rotate(RotationDirection rd)
 {
+	lock_guard<mutex> lg(fig_mutex_);
 	fig_.rotate(rd);
 	if ( field_.isValidPlacement(*this, 0, 0) )
 	{

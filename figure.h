@@ -1,6 +1,8 @@
 #pragma once
 
 #include "bits4x4.h"
+#include <atomic>
+#include <mutex>
 #include <ncurses.h>
 #include <utility>
 
@@ -34,5 +36,6 @@ private:
 	int x_ = 6;
 	int y_ = 0;
 	short int color_;
-	bool moveable_ = true;
+	std::atomic<bool> moveable_ = true;
+	std::mutex fig_mutex_;
 };

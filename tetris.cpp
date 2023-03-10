@@ -4,6 +4,7 @@
 #include <iostream>
 #include <ncurses.h>
 #include <random>
+#include <thread>
 
 using namespace std;
 
@@ -14,7 +15,7 @@ Tetris::Tetris(uint16_t height, uint16_t width)
 	, width_ {width}
 {
 	initscr();					// Initialize routines
-	cbreak();
+	cbreak();					// Don't wait Enter
 	noecho();					// Disable printing by getch()
 	keypad(stdscr, true);		// Activate function keys
 	nodelay(stdscr, true);		// Non-blocking getch
@@ -59,9 +60,12 @@ void Tetris::run()
 	{
 		Figure fig(field_, distr(gen));
 		fig.show();
+		thread fig_thr(&Figure::stepDown, &fig);
+
 		while ( fig.isMoveable() )
 		{
 			int ch = getch();
+			this_thread::sleep_for(5ms);
 			switch ( ch )
 			{
 				case KEY_LEFT:
@@ -91,5 +95,7 @@ void Tetris::run()
 //					return;
 			} // switch ( ch )
 		} // while ( fig.isMoveable() )
+
+		fig_thr.join();
 	} // while ( true )
 }
