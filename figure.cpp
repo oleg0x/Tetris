@@ -123,9 +123,13 @@ void Figure::drop()
 
 void Figure::stepDown()
 {
-	while ( moveable_ )
+	while ( true )
 	{
-		this_thread::sleep_for(500ms);
+		for ( int i = 0; i < 10; ++i )
+		{   // Divide the pause for faster thread cancellation
+			if ( !moveable_ )  return;
+			this_thread::sleep_for(50ms);
+		}
 		move(1, 0);
 	}
 }

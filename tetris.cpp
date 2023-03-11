@@ -60,7 +60,7 @@ void Tetris::run()
 	{
 		Figure fig(field_, distr(gen));
 		fig.show();
-		thread fig_thr(&Figure::stepDown, &fig);
+		jthread fig_thr(&Figure::stepDown, &fig);
 
 		while ( fig.isMoveable() )
 		{
@@ -80,7 +80,10 @@ void Tetris::run()
 				case KEY_DOWN:
 					fig.move(+1, 0);
 					break;
-				case KEY_IC:				// Keypad Ins
+				case KEY_IC:					// Keypad Ins
+					fig.moveable_ = false;
+					fig_thr.join();
+					fig.moveable_ = true;
 					fig.drop();
 					break;
 				case '/':
@@ -94,7 +97,6 @@ void Tetris::run()
 			} // switch ( ch )
 		} // while ( fig.isMoveable() )
 
-		fig_thr.join();
 		field_.makeFigureStatic(fig);
 	} // while ( true )
 }

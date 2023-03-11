@@ -28,6 +28,8 @@ public:
 
 	void rotate(RotationDirection rd);
 
+	std::atomic<bool> moveable_ = true;
+
 private:
 	void draw() const;
 
@@ -36,6 +38,6 @@ private:
 	int x_ = 6;
 	int y_ = 0;
 	short int color_;
-	std::atomic<bool> moveable_ = true;
+//	std::atomic<bool> moveable_ = true;
 	std::mutex fig_mutex_;
 };
