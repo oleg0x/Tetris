@@ -25,13 +25,13 @@ Tetris::Tetris(uint16_t height, uint16_t width)
 	if ( !has_colors() )
 	{
 		endwin();
-		cout << "The terminal does not support colors\n";
+		cerr << "The terminal does not support colors\n";
 		exit(1);
 	}
 
 	mvaddstr(0, 10, "TETRIS");		// From top left corner which is (0,0)
-	mvprintw(4, 50, "Field: %2dx%2d", height_, width_);
-
+	mvprintw(4, 50, "%d colors", COLORS);
+	mvprintw(5, 50, "Field: %2dx%2d", height_, width_);
 	win_ = newwin(height_ + 2, 2*width_ + 2, 2, 4);
 	refresh();
 	field_ = Field(win_, height_, width_);
@@ -41,7 +41,6 @@ Tetris::Tetris(uint16_t height, uint16_t width)
 
 Tetris::~Tetris()
 {
-//	getch();
 	endwin();
 	cout << "The program finished.\n";
 }
@@ -93,6 +92,8 @@ void Tetris::run()
 					fig.rotate(RotationDirection::clockwise);
 					break;
 				case 'q':
+					fig.moveable_ = false;
+					fig_thr.join();
 					return;
 			} // switch ( ch )
 		} // while ( fig.isMoveable() )
