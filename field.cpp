@@ -34,7 +34,7 @@ void Field::redraw() const
 	wattroff(win_, COLOR_PAIR(1));
 	wrefresh(win_);
 
-	const short int fallen_color = 245;				// Gray color
+
 	init_pair(2, fallen_color, fallen_color);		// (id, fg, bg)
 	wattron(win_, COLOR_PAIR(2));
 	for ( uint16_t i = 0; i < height_; ++i )

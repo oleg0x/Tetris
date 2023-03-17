@@ -21,6 +21,8 @@ public:
 	void makeFigureStatic(Figure& fig);
 	bool isValidPlacement(const Figure& fig, int dy, int dx) const;
 
+	static const short int fallen_color = 245;			// Gray color
+
 private:
 	WINDOW* win_;
 	int height_;

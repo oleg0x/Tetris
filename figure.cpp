@@ -1,6 +1,7 @@
 #include "figure.h"
 #include "field.h"
 #include <iostream>
+#include <random>
 #include <thread>
 
 using namespace std;
@@ -38,7 +39,12 @@ Figure::Figure(Field& field, uint8_t figure_type)
 			cerr << "In Figure::Figure: wrong figure number!\n";
 			exit(1);
 	}
-	color_ = COLOR_GREEN;
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<short int> distr(1, COLORS);
+	do {
+		color_ = distr(gen);
+	} while ( abs(color_ - field_.fallen_color) < 10 );
 }
 
 
@@ -102,13 +108,10 @@ void Figure::move(int dy, int dx)
 		y_ += dy;
 		x_ += dx;
 		show();
-		mvprintw(5, 50, "%2dx%2d", y_, x_);
+		mvprintw(6, 50, "%02dx%02d", y_, x_);
 	}
 	else if ( dy > 0 && dx == 0 )		// It is invalid move down
-	{
-//		field_.makeFigureStatic(*this);
 		moveable_ = false;
-	}
 }
 
 
