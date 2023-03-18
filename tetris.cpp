@@ -29,7 +29,7 @@ Tetris::Tetris(uint16_t height, uint16_t width)
 		exit(1);
 	}
 
-	mvaddstr(0, 10, "TETRIS");		// From top left corner which is (0,0)
+	mvaddstr(0, 16, "TETRIS");		// From top left corner which is (0,0)
 	mvprintw(4, 50, "%d colors", COLORS);
 	mvprintw(5, 50, "Field: %2dx%2d", height_, width_);
 	win_ = newwin(height_ + 2, 2*width_ + 2, 2, 4);
@@ -61,7 +61,7 @@ void Tetris::run()
 		fig.show();
 		jthread fig_thr(&Figure::stepDown, &fig);
 
-		while ( fig.isMoveable() )
+		while ( fig.moveable_ )
 		{
 			int ch = getch();
 			this_thread::sleep_for(10ms);
