@@ -18,7 +18,7 @@ public:
 	WINDOW* getWindow() const;
 	void redraw() const;
 	void eraseFullRows();
-	void makeFigureStatic(Figure& fig);
+	void makeFigureStatic(const Figure& fig);
 	bool isValidPlacement(const Figure& fig, int dy, int dx) const;
 
 	static const short int fallen_color = 245;			// Gray color

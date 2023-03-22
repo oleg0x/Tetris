@@ -64,7 +64,7 @@ void Field::eraseFullRows()
 
 
 
-void Field::makeFigureStatic(Figure& fig)
+void Field::makeFigureStatic(const Figure& fig)
 {
 	auto [y, x] = fig.getYX();
 	for ( int i = 0; i < 4; ++i )

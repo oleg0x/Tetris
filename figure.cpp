@@ -63,13 +63,6 @@ bool Figure::getBit(int i, int j) const
 
 
 
-bool Figure::isMoveable() const
-{
-	return moveable_;
-}
-
-
-
 void Figure::draw() const
 {
 	for ( int i = 0; i < 4; ++i )

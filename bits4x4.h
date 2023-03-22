@@ -12,7 +12,7 @@ class Bits4x4
 {
 public:
 	Bits4x4() = default;
-	Bits4x4(uint8_t value) : data_ {value} {}
+	explicit Bits4x4(uint8_t value) : data_ {value} {}
 
 	void setBit(uint8_t row, uint8_t col);
 	void clearBit(uint8_t row, uint8_t col);

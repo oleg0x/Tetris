@@ -18,8 +18,6 @@ public:
 	std::pair<int, int> getYX() const;
 	bool getBit(int i, int j) const;
 
-	bool isMoveable() const;
-
 	void show() const;
 	void hide() const;
 
